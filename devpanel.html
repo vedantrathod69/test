@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8" />
+    <title>TEAMGENZ | Meet the Broz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        // Apply theme from localStorage
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+        }
+
+        // Admin Password Validation
+        function checkAdminPassword() {
+            const password = prompt("Enter Admin Password:");
+            return password === 'GENZCLANX';  // Replace with a more secure method
+        }
+
+        // Toggle Task History for Developer
+        function toggleTaskHistory(dev) {
+            const taskHistory = document.getElementById(`task-history-${dev}`);
+            taskHistory.classList.toggle('hidden');
+        }
+
+        // Show Edit Form for Admin
+        function showEditForm(dev) {
+            if (checkAdminPassword()) {
+                const card = document.getElementById(`dev-card-${dev}`);
+                const nameField = document.getElementById(`dev-name-${dev}`);
+                const roleField = document.getElementById(`dev-role-${dev}`);
+                const xpField = document.getElementById(`dev-xp-${dev}`);
+                const tagsField = document.getElementById(`dev-tags-${dev}`);
+                const avatarImg = document.getElementById(`dev-avatar-${dev}`);
+                const avatarUpload = document.getElementById(`avatar-upload-${dev}`);
+                const editButton = document.getElementById(`edit-btn-${dev}`);
+
+                // Create editable fields
+                const nameInput = document.createElement('div');
+                nameInput.className = 'mb-2';
+                nameInput.innerHTML = `
+                    <label for="edit-name-${dev}" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-1">Name:</label>
+                    <input type="text" id="edit-name-${dev}" value="${nameField.innerText}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:bg-gray-700 dark:text-white" />
+                `;
+                
+                const roleInput = document.createElement('div');
+                roleInput.className = 'mb-2';
+                roleInput.innerHTML = `
+                    <label for="edit-role-${dev}" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-1">Role:</label>
+                    <input type="text" id="edit-role-${dev}" value="${roleField.innerText}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:bg-gray-700 dark:text-white" />
+                `;
+                
+                const xpInput = document.createElement('div');
+                xpInput.className = 'mb-2';
+                xpInput.innerHTML = `
+                    <label for="edit-xp-${dev}" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-1">XP Level (%):</label>
+                    <input type="number" id="edit-xp-${dev}" value="${xpField.innerText.replace('XP Level: ', '').replace('%', '')}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:bg-gray-700 dark:text-white" />
+                `;
+                
+                const tagsInput = document.createElement('div');
+                tagsInput.className = 'mb-2';
+                tagsInput.innerHTML = `
+                    <label for="edit-tags-${dev}" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-1">Tags (comma-separated):</label>
+                    <input type="text" id="edit-tags-${dev}" value="${tagsField.innerText}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:bg-gray-700 dark:text-white" placeholder="e.g., React, Node, UI/UX" />
+                `;
+
+                // Replace fields with inputs
+                nameField.replaceWith(nameInput);
+                roleField.replaceWith(roleInput);
+                xpField.replaceWith(xpInput);
+                tagsField.replaceWith(tagsInput);
+
+                // Avatar Upload
+                avatarImg.classList.add('cursor-pointer');
+                avatarImg.onclick = () => avatarUpload.click();
+                avatarUpload.classList.remove('hidden');
+
+                editButton.innerHTML = 'Save Profile';
+                editButton.setAttribute('onclick', `saveProfile('${dev}')`);
+            }
+        }
+
+        // Save Edited Profile
+        function saveProfile(dev) {
+            const nameInput = document.getElementById(`edit-name-${dev}`);
+            const roleInput = document.getElementById(`edit-role-${dev}`);
+            const xpInput = document.getElementById(`edit-xp-${dev}`);
+            const tagsInput = document.getElementById(`edit-tags-${dev}`);
+            const editButton = document.getElementById(`edit-btn-${dev}`);
+            const avatarImg = document.getElementById(`dev-avatar-${dev}`);
+            const avatarUpload = document.getElementById(`avatar-upload-${dev}`);
+
+            const name = nameInput.value;
+            const role = roleInput.value;
+            const xp = xpInput.value;
+            const tags = tagsInput.value;
+
+            // Create new display elements
+            const nameField = document.createElement('h4');
+            nameField.id = `dev-name-${dev}`;
+            nameField.className = 'text-2xl font-semibold text-center';
+            nameField.innerText = name;
+            
+            const roleField = document.createElement('p');
+            roleField.id = `dev-role-${dev}`;
+            roleField.className = 'text-center text-indigo-500 font-medium';
+            roleField.innerText = role;
+            
+            const xpField = document.createElement('p');
+            xpField.id = `dev-xp-${dev}`;
+            xpField.className = 'text-center text-gray-600';
+            xpField.innerText = `XP Level: ${xp}%`;
+            
+            const tagsField = document.createElement('p');
+            tagsField.id = `dev-tags-${dev}`;
+            tagsField.className = 'text-center text-sm text-gray-500';
+            tagsField.innerText = tags;
+
+            // Replace inputs with display fields
+            nameInput.replaceWith(nameField);
+            roleInput.replaceWith(roleField);
+            xpInput.replaceWith(xpField);
+            tagsInput.replaceWith(tagsField);
+
+            // Reset avatar
+            avatarImg.classList.remove('cursor-pointer');
+            avatarImg.onclick = null;
+            avatarUpload.classList.add('hidden');
+
+            editButton.innerHTML = 'Edit Profile (Admin)';
+            editButton.setAttribute('onclick', `showEditForm('${dev}')`);
+
+            // Store Changes in localStorage
+            localStorage.setItem(`dev-name-${dev}`, name);
+            localStorage.setItem(`dev-role-${dev}`, role);
+            localStorage.setItem(`dev-xp-${dev}`, xp);
+            localStorage.setItem(`dev-tags-${dev}`, tags);
+        }
+
+        // Upload Avatar
+        function uploadAvatar(event, dev) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(dev).src = e.target.result;
+                    localStorage.setItem(`dev-avatar-${dev}`, e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Toggle Theme (Dark/Light)
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        // Set Initial Theme Based on localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            document.getElementById('theme-icon').textContent = '☀️';
+        } else {
+            document.getElementById('theme-icon').textContent = '🌙';
+        }
+
+        // Add Task to Developer's Task History
+        function addTask(dev, task) {
+            const taskHistoryList = document.querySelector(`#task-history-${dev} ul`);
+            const newTask = document.createElement('li');
+            newTask.textContent = `➕ ${task} (Added Now)`;
+            taskHistoryList.prepend(newTask);
+        }
+
+        // Remove Last Task from Developer's Task History
+        function removeLastTask(dev) {
+            const taskHistoryList = document.querySelector(`#task-history-${dev} ul`);
+            if (taskHistoryList.children.length > 0) {
+                const lastTask = taskHistoryList.lastElementChild;
+                taskHistoryList.removeChild(lastTask);
+            } else {
+                alert(`No tasks to remove for ${document.getElementById(`dev-name-${dev}`).innerText}`);
+            }
+        }
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-white transition-all duration-300">
+
+    <header class="p-6 flex justify-between items-center bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-gray-800 dark:to-gray-700 text-white">
+        <h1 class="text-3xl font-bold">GENZ BROZ | Developer Squad</h1>
+        <button onclick="toggleTheme()" class="bg-white dark:bg-black text-black dark:text-white p-2 rounded-full shadow hover:scale-110 transition">
+            <span id="theme-icon">🌙</span>
+        </button>
+    </header>
+
+    <section class="px-6">
+        <h3 class="text-xl font-bold text-indigo-600 mt-10 mb-4">🧠 Core Developers</h3>
+        <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+            <!-- Developer Card (Arsh) -->
+            <div id="dev-card-arsh" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all relative max-w-xl mx-auto">
+                <div class="flex justify-center items-center">
+                    <img src="https://i.ibb.co/2kKZ2s3/avatar-boy.png" id="dev-avatar-arsh" class="w-48 h-48 rounded-full mx-auto border-4 border-indigo-500 mb-6" />
+                    <input type="file" id="avatar-upload-arsh" class="mt-2 text-sm text-indigo-600 border-none hidden" onchange="uploadAvatar(event, 'dev-avatar-arsh')" />
+                </div>
+                <h4 id="dev-name-arsh" class="text-2xl font-semibold text-center">Arsh</h4>
+                <p id="dev-role-arsh" class="text-center text-indigo-500 font-medium">Founder & Lead Developer</p>
+                <p id="dev-xp-arsh" class="text-center text-gray-600">XP Level: 85%</p>
+                <p id="dev-tags-arsh" class="text-center text-sm text-gray-500">React, Node, JS, Fullstack</p>
+                <button id="edit-btn-arsh" onclick="showEditForm('arsh')" class="absolute bottom-4 left-4 right-4 bg-indigo-600 text-white py-2 rounded-lg shadow-lg hover:shadow-xl transition">Edit Profile (Admin)</button>
+                <button onclick="toggleTaskHistory('arsh')" class="absolute bottom-4 right-4 bg-green-600 text-white py-2 px-4 rounded-full shadow-lg hover:shadow-xl transition">View Tasks</button>
+
+                <!-- Task History (Initially Hidden) -->
+                <div id="task-history-arsh" class="task-history hidden mt-6 bg-gray-100 dark:bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <h5 class="font-semibold text-lg mb-4">Task History</h5>
+                    <ul>
+                        <li>🔧 Setup Firebase for Project</li>
+                        <li>📚 Research on UI/UX Design Trends</li>
+                    </ul>
+                    <button onclick="addTask('arsh', 'New Task')" class="bg-indigo-500 text-white p-2 mt-4 rounded-lg hover:scale-105 transition">Add Task</button>
+                    <button onclick="removeLastTask('arsh')" class="bg-red-500 text-white p-2 mt-4 ml-2 rounded-lg hover:scale-105 transition">Remove Last Task</button>
+                </div>
+            </div>
+
+            <!-- Developer Card (John) -->
+            <div id="dev-card-john" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all relative max-w-xl mx-auto">
+                <div class="flex justify-center items-center">
+                    <img src="https://i.ibb.co/2kKZ2s3/avatar-boy.png" id="dev-avatar-john" class="w-48 h-48 rounded-full mx-auto border-4 border-indigo-500 mb-6" />
+                    <input type="file" id="avatar-upload-john" class="mt-2 text-sm text-indigo-600 border-none hidden" onchange="uploadAvatar(event, 'dev-avatar-john')" />
+                </div>
+                <h4 id="dev-name-john" class="text-2xl font-semibold text-center">John</h4>
+                <p id="dev-role-john" class="text-center text-indigo-500 font-medium">Backend Developer</p>
+                <p id="dev-xp-john" class="text-center text-gray-600">XP Level: 75%</p>
+                <p id="dev-tags-john" class="text-center text-sm text-gray-500">Node.js, Express, MongoDB</p>
+                <button id="edit-btn-john" onclick="showEditForm('john')" class="absolute bottom-4 left-4 right-4 bg-indigo-600 text-white py-2 rounded-lg shadow-lg hover:shadow-xl transition">Edit Profile (Admin)</button>
+                <button onclick="toggleTaskHistory('john')" class="absolute bottom-4 right-4 bg-green-600 text-white py-2 px-4 rounded-full shadow-lg hover:shadow-xl transition">View Tasks</button>
+
+                <!-- Task History (Initially Hidden) -->
+                <div id="task-history-john" class="task-history hidden mt-6 bg-gray-100 dark:bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <h5 class="font-semibold text-lg mb-4">Task History</h5>
+                    <ul>
+                        <li>🛠 Setup MongoDB Atlas</li>
+                        <li>⚙️ Integrate Payment Gateway</li>
+                    </ul>
+                    <button onclick="addTask('john', 'New Task')" class="bg-indigo-500 text-white p-2 mt-4 rounded-lg hover:scale-105 transition">Add Task</button>
+                    <button onclick="removeLastTask('john')" class="bg-red-500 text-white p-2 mt-4 ml-2 rounded-lg hover:scale-105 transition">Remove Last Task</button>
+                </div>
+            </div>
+
+            <!-- Developer Card (Sarah) -->
+            <div id="dev-card-sarah" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all relative max-w-xl mx-auto">
+                <div class="flex justify-center items-center">
+                    <img src="https://i.ibb.co/1fW4D6v/avatar-girl.png" id="dev-avatar-sarah" class="w-48 h-48 rounded-full mx-auto border-4 border-indigo-500 mb-6" />
+                    <input type="file" id="avatar-upload-sarah" class="mt-2 text-sm text-indigo-600 border-none hidden" onchange="uploadAvatar(event, 'dev-avatar-sarah')" />
+                </div>
+                <h4 id="dev-name-sarah" class="text-2xl font-semibold text-center">Sarah</h4>
+                <p id="dev-role-sarah" class="text-center text-indigo-500 font-medium">UI/UX Designer</p>
+                <p id="dev-xp-sarah" class="text-center text-gray-600">XP Level: 80%</p>
+                <p id="dev-tags-sarah" class="text-center text-sm text-gray-500">Figma, Adobe XD, CSS, Animation</p>
+                <button id="edit-btn-sarah" onclick="showEditForm('sarah')" class="absolute bottom-4 left-4 right-4 bg-indigo-600 text-white py-2 rounded-lg shadow-lg hover:shadow-xl transition">Edit Profile (Admin)</button>
+                <button onclick="toggleTaskHistory('sarah')" class="absolute bottom-4 right-4 bg-green-600 text-white py-2 px-4 rounded-full shadow-lg hover:shadow-xl transition">View Tasks</button>
+
+                <!-- Task History (Initially Hidden) -->
+                <div id="task-history-sarah" class="task-history hidden mt-6 bg-gray-100 dark:bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <h5 class="font-semibold text-lg mb-4">Task History</h5>
+                    <ul>
+                        <li>🎨 Design App Wireframes</li>
+                        <li>🌈 Create Color Palette</li>
+                    </ul>
+                    <button onclick="addTask('sarah', 'New Task')" class="bg-indigo-500 text-white p-2 mt-4 rounded-lg hover:scale-105 transition">Add Task</button>
+                    <button onclick="removeLastTask('sarah')" class="bg-red-500 text-white p-2 mt-4 ml-2 rounded-lg hover:scale-105 transition">Remove Last Task</button>
+                </div>
+            </div>
+
+            <!-- Developer Card (Mike) -->
+            <div id="dev-card-mike" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all relative max-w-xl mx-auto">
+                <div class="flex justify-center items-center">
+                    <img src="https://i.ibb.co/2kKZ2s3/avatar-boy.png" id="dev-avatar-mike" class="w-48 h-48 rounded-full mx-auto border-4 border-indigo-500 mb-6" />
+                    <input type="file" id="avatar-upload-mike" class="mt-2 text-sm text-indigo-600 border-none hidden" onchange="uploadAvatar(event, 'dev-avatar-mike')" />
+                </div>
+                <h4 id="dev-name-mike" class="text-2xl font-semibold text-center">Mike</h4>
+                <p id="dev-role-mike" class="text-center text-indigo-500 font-medium">Mobile Developer</p>
+                <p id="dev-xp-mike" class="text-center text-gray-600">XP Level: 70%</p>
+                <p id="dev-tags-mike" class="text-center text-sm text-gray-500">React Native, Flutter, Kotlin</p>
+                <button id="edit-btn-mike" onclick="showEditForm('mike')" class="absolute bottom-4 left-4 right-4 bg-indigo-600 text-white py-2 rounded-lg shadow-lg hover:shadow-xl transition">Edit Profile (Admin)</button>
+                <button onclick="toggleTaskHistory('mike')" class="absolute bottom-4 right-4 bg-green-600 text-white py-2 px-4 rounded-full shadow-lg hover:shadow-xl transition">View Tasks</button>
+
+                <!-- Task History (Initially Hidden) -->
+                <div id="task-history-mike" class="task-history hidden mt-6 bg-gray-100 dark:bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <h5 class="font-semibold text-lg mb-4">Task History</h5>
+                    <ul>
+                        <li>📱 Setup React Native Project</li>
+                        <li>🔌 Implement Push Notifications</li>
+                    </ul>
+                    <button onclick="addTask('mike', 'New Task')" class="bg-indigo-500 text-white p-2 mt-4 rounded-lg hover:scale-105 transition">Add Task</button>
+                    <button onclick="removeLastTask('mike')" class="bg-red-500 text-white p-2 mt-4 ml-2 rounded-lg hover:scale-105 transition">Remove Last Task</button>
+                </div>
+            </div>
+
+            <!-- Developer Card (Emma) -->
+            <div id="dev-card-emma" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all relative max-w-xl mx-auto">
+                <div class="flex justify-center items-center">
+                    <img src="https://i.ibb.co/1fW4D6v/avatar-girl.png" id="dev-avatar-emma" class="w-48 h-48 rounded-full mx-auto border-4 border-indigo-500 mb-6" />
+                    <input type="file" id="avatar-upload-emma" class="mt-2 text-sm text-indigo-600 border-none hidden" onchange="uploadAvatar(event, 'dev-avatar-emma')" />
+                </div>
+                <h4 id="dev-name-emma" class="text-2xl font-semibold text-center">Emma</h4>
+                <p id="dev-role-emma" class="text-center text-indigo-500 font-medium">Frontend Developer</p>
+                <p id="dev-xp-emma" class="text-center text-gray-600">XP Level: 78%</p>
+                <p id="dev-tags-emma" class="text-center text-sm text-gray-500">React, Vue, Tailwind, CSS</p>
+                <button id="edit-btn-emma" onclick="showEditForm('emma')" class="absolute bottom-4 left-4 right-4 bg-indigo-600 text-white py-2 rounded-lg shadow-lg hover:shadow-xl transition">Edit Profile (Admin)</button>
+                <button onclick="toggleTaskHistory('emma')" class="absolute bottom-4 right-4 bg-green-600 text-white py-2 px-4 rounded-full shadow-lg hover:shadow-xl transition">View Tasks</button>
+
+                <!-- Task History (Initially Hidden) -->
+                <div id="task-history-emma" class="task-history hidden mt-6 bg-gray-100 dark:bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <h5 class="font-semibold text-lg mb-4">Task History</h5>
+                    <ul>
+                        <li>💅 Implement Design System</li>
+                        <li>📱 Build Responsive Layouts</li>
+                    </ul>
+                    <button onclick="addTask('emma', 'New Task')" class="bg-indigo-500 text-white p-2 mt-4 rounded-lg hover:scale-105 transition">Add Task</button>
+                    <button onclick="removeLastTask('emma')" class="bg-red-500 text-white p-2 mt-4 ml-2 rounded-lg hover:scale-105 transition">Remove Last Task</button>
+                </div>
+            </div>
+
+            <!-- Developer Card (David) -->
+            <div id="dev-card-david" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all relative max-w-xl mx-auto">
+                <div class="flex justify-center items-center">
+                    <img src="https://i.ibb.co/2kKZ2s3/avatar-boy.png" id="dev-avatar-david" class="w-48 h-48 rounded-full mx-auto border-4 border-indigo-500 mb-6" />
+                    <input type="file" id="avatar-upload-david" class="mt-2 text-sm text-indigo-600 border-none hidden" onchange="uploadAvatar(event, 'dev-avatar-david')" />
+                </div>
+                <h4 id="dev-name-david" class="text-2xl font-semibold text-center">David</h4>
+                <p id="dev-role-david" class="text-center text-indigo-500 font-medium">DevOps Engineer</p>
+                <p id="dev-xp-david" class="text-center text-gray-600">XP Level: 82%</p>
+                <p id="dev-tags-david" class="text-center text-sm text-gray-500">AWS, Docker, CI/CD, Kubernetes</p>
+                <button id="edit-btn-david" onclick="showEditForm('david')" class="absolute bottom-4 left-4 right-4 bg-indigo-600 text-white py-2 rounded-lg shadow-lg hover:shadow-xl transition">Edit Profile (Admin)</button>
+                <button onclick="toggleTaskHistory('david')" class="absolute bottom-4 right-4 bg-green-600 text-white py-2 px-4 rounded-full shadow-lg hover:shadow-xl transition">View Tasks</button>
+
+                <!-- Task History (Initially Hidden) -->
+                <div id="task-history-david" class="task-history hidden mt-6 bg-gray-100 dark:bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <h5 class="font-semibold text-lg mb-4">Task History</h5>
+                    <ul>
+                        <li>☁️ Configure AWS Services</li>
+                        <li>🐳 Setup Docker Containers</li>
+                    </ul>
+                    <button onclick="addTask('david', 'New Task')" class="bg-indigo-500 text-white p-2 mt-4 rounded-lg hover:scale-105 transition">Add Task</button>
+                    <button onclick="removeLastTask('david')" class="bg-red-500 text-white p-2 mt-4 ml-2 rounded-lg hover:scale-105 transition">Remove Last Task</button>
+                </div>
+            </div>
+
+            <!-- Developer Card (Lisa) -->
+            <div id="dev-card-lisa" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all relative max-w-xl mx-auto">
+                <div class="flex justify-center items-center">
+                    <img src="https://i.ibb.co/1fW4D6v/avatar-girl.png" id="dev-avatar-lisa" class="w-48 h-48 rounded-full mx-auto border-4 border-indigo-500 mb-6" />
+                    <input type="file" id="avatar-upload-lisa" class="mt-2 text-sm text-indigo-600 border-none hidden" onchange="uploadAvatar(event, 'dev-avatar-lisa')" />
+                </div>
+                <h4 id="dev-name-lisa" class="text-2xl font-semibold text-center">Lisa</h4>
+                <p id="dev-role-lisa" class="text-center text-indigo-500 font-medium">QA Engineer</p>
+                <p id="dev-xp-lisa" class="text-center text-gray-600">XP Level: 68%</p>
+                <p id="dev-tags-lisa" class="text-center text-sm text-gray-500">Testing, Automation, Selenium</p>
+                <button id="edit-btn-lisa" onclick="showEditForm('lisa')" class="absolute bottom-4 left-4 right-4 bg-indigo-600 text-white py-2 rounded-lg shadow-lg hover:shadow-xl transition">Edit Profile (Admin)</button>
+                <button onclick="toggleTaskHistory('lisa')" class="absolute bottom-4 right-4 bg-green-600 text-white py-2 px-4 rounded-full shadow-lg hover:shadow-xl transition">View Tasks</button>
+
+                <!-- Task History (Initially Hidden) -->
+                <div id="task-history-lisa" class="task-history hidden mt-6 bg-gray-100 dark:bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <h5 class="font-semibold text-lg mb-4">Task History</h5>
+                    <ul>
+                        <li>🧪 Write Test Cases</li>
+                        <li>🤖 Setup Automated Testing</li>
+                    </ul>
+                    <button onclick="addTask('lisa', 'New Task')" class="bg-indigo-500 text-white p-2 mt-4 rounded-lg hover:scale-105 transition">Add Task</button>
+                    <button onclick="removeLastTask('lisa')" class="bg-red-500 text-white p-2 mt-4 ml-2 rounded-lg hover:scale-105 transition">Remove Last Task</button>
+                </div>
+            </div>
+
+            <!-- Developer Card (Alex) -->
+            <div id="dev-card-alex" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all relative max-w-xl mx-auto">
+                <div class="flex justify-center items-center">
+                    <img src="https://i.ibb.co/2kKZ2s3/avatar-boy.png" id="dev-avatar-alex" class="w-48 h-48 rounded-full mx-auto border-4 border-indigo-500 mb-6" />
+                    <input type="file" id="avatar-upload-alex" class="mt-2 text-sm text-indigo-600 border-none hidden" onchange="uploadAvatar(event, 'dev-avatar-alex')" />
+                </div>
+                <h4 id="dev-name-alex" class="text-2xl font-semibold text-center">Alex</h4>
+                <p id="dev-role-alex" class="text-center text-indigo-500 font-medium">Data Scientist</p>
+                <p id="dev-xp-alex" class="text-center text-gray-600">XP Level: 88%</p>
+                <p id="dev-tags-alex" class="text-center text-sm text-gray-500">Python, ML, TensorFlow, Data Analysis</p>
+                <button id="edit-btn-alex" onclick="showEditForm('alex')" class="absolute bottom-4 left-4 right-4 bg-indigo-600 text-white py-2 rounded-lg shadow-lg hover:shadow-xl transition">Edit Profile (Admin)</button>
+                <button onclick="toggleTaskHistory('alex')" class="absolute bottom-4 right-4 bg-green-600 text-white py-2 px-4 rounded-full shadow-lg hover:shadow-xl transition">View Tasks</button>
+
+                <!-- Task History (Initially Hidden) -->
+                <div id="task-history-alex" class="task-history hidden mt-6 bg-gray-100 dark:bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <h5 class="font-semibold text-lg mb-4">Task History</h5>
+                    <ul>
+                        <li>📊 Analyze User Data</li>
+                        <li>🧠 Train ML Models</li>
+                    </ul>
+                    <button onclick="addTask('alex', 'New Task')" class="bg-indigo-500 text-white p-2 mt-4 rounded-lg hover:scale-105 transition">Add Task</button>
+                    <button onclick="removeLastTask('alex')" class="bg-red-500 text-white p-2 mt-4 ml-2 rounded-lg hover:scale-105 transition">Remove Last Task</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
