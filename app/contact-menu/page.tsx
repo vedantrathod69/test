@@ -75,9 +75,8 @@ export default function ContactMenuPage() {
 
                 <div className="border-t pt-4">
                   <div className="text-center mb-4">
-                    <div className="text-sm text-gray-500 mb-2">Contact Information</div>
-                    <div className="font-mono text-sm font-semibold">@lord_vedant19</div>
-                    <div className="text-xs text-gray-500">vedantrathod1910@gmail.com</div>
+                    <div className="text-sm text-gray-500 mb-2">Telegram Username</div>
+                    <div className="font-mono text-lg font-semibold">@lord_vedant19</div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -87,7 +86,10 @@ export default function ContactMenuPage() {
                         Chat on Telegram
                       </Button>
                     </a>
-                    <a href="mailto:vedantrathod1910@gmail.com" className="block">
+                    <a
+                      href="mailto:vedantrathod1910@gmail.com?subject=Diesel%20Buyer%20Inquiry&body=Hello%20Vedant%2C%0D%0A%0D%0AI%20am%20interested%20in%20purchasing%20diesel%20fuel.%20Please%20contact%20me%20to%20discuss%20pricing%20and%20availability.%0D%0A%0D%0AThank%20you"
+                      className="block"
+                    >
                       <Button variant="outline" className="w-full">
                         <Mail className="mr-2 h-5 w-5" />
                         Send Email
@@ -145,9 +147,8 @@ export default function ContactMenuPage() {
 
                 <div className="border-t pt-4">
                   <div className="text-center mb-4">
-                    <div className="text-sm text-gray-500 mb-2">Contact Information</div>
-                    <div className="font-mono text-sm font-semibold">@GT_earner</div>
-                    <div className="text-xs text-gray-500">gauravmathanikar2006@gmail.com</div>
+                    <div className="text-sm text-gray-500 mb-2">Telegram Username</div>
+                    <div className="font-mono text-lg font-semibold">@GT_earner</div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -157,7 +158,10 @@ export default function ContactMenuPage() {
                         Chat on Telegram
                       </Button>
                     </a>
-                    <a href="mailto:gauravmathanikar2006@gmail.com" className="block">
+                    <a
+                      href="mailto:gauravmathanikar2006@gmail.com?subject=Diesel%20Supplier%20Inquiry&body=Hello%20Gaurav%2C%0D%0A%0D%0AI%20am%20interested%20in%20becoming%20a%20diesel%20supplier%20on%20your%20marketplace.%20Please%20contact%20me%20to%20discuss%20the%20registration%20process.%0D%0A%0D%0AThank%20you"
+                      className="block"
+                    >
                       <Button variant="outline" className="w-full">
                         <Mail className="mr-2 h-5 w-5" />
                         Send Email
@@ -202,18 +206,18 @@ export default function ContactMenuPage() {
                 </div>
 
                 <div className="mt-6 pt-6 border-t text-center">
-                  <p className="text-sm text-gray-600 mb-4">Need more detailed contact options?</p>
+                  <p className="text-sm text-gray-600 mb-4">Prefer other contact methods?</p>
                   <div className="flex justify-center gap-4">
-                    <Link href="/simple-email">
-                      <Button variant="ghost" size="sm">
-                        <Mail className="mr-2 h-4 w-4" />
-                        Email Options
-                      </Button>
-                    </Link>
                     <Button variant="ghost" size="sm">
                       <Phone className="mr-2 h-4 w-4" />
                       Call Us
                     </Button>
+                    <Link href="/simple-email">
+                      <Button variant="ghost" size="sm">
+                        <Mail className="mr-2 h-4 w-4" />
+                        Email Us
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </CardContent>
