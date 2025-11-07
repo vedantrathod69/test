@@ -1,74 +1,350 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
-  }
+@custom-variant dark (&:is(.dark *));
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 94.1%;
-  }
+:root {
+  /* Updated to Birthday Bliss pastel celebration colors */
+  --background: #fff5c3; /* Cream Yellow */
+  --foreground: #333333; /* Charcoal Text */
+  --card: #ffffff;
+  --card-foreground: #333333;
+  --popover: #ffffff;
+  --popover-foreground: #333333;
+  --primary: #cabdff; /* Lavender */
+  --primary-foreground: #333333;
+  --secondary: #b4f8c8; /* Mint Green */
+  --secondary-foreground: #333333;
+  --muted: #ffd6e8; /* Blush Pink */
+  --muted-foreground: #333333;
+  --accent: #ffd6e8; /* Blush Pink */
+  --accent-foreground: #333333;
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: #ffd6e8;
+  --input: #ffffff;
+  --ring: #cabdff;
+
+  /* Birthday Bliss chart colors */
+  --chart-1: #ffd6e8; /* Blush Pink */
+  --chart-2: #cabdff; /* Lavender */
+  --chart-3: #fff5c3; /* Cream Yellow */
+  --chart-4: #b4f8c8; /* Mint Green */
+  --chart-5: #ffb3e6; /* Light Pink variation */
+
+  --radius: 0.75rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #333333;
+  --sidebar-primary: #cabdff;
+  --sidebar-primary-foreground: #333333;
+  --sidebar-accent: #ffd6e8;
+  --sidebar-accent-foreground: #333333;
+  --sidebar-border: #ffd6e8;
+  --sidebar-ring: #cabdff;
+
+  /* Updated vibrant colors to complement Birthday Bliss palette */
+  --vibrant-orange: #ffb366;
+  --vibrant-red: #ff8a95;
+  --vibrant-pink: #ffd6e8;
+  --vibrant-purple: #cabdff;
+  --vibrant-coral: #ffb3ba;
+  --vibrant-magenta: #e6b3ff;
+}
+
+.dark {
+  /* Dark theme with Birthday Bliss inspired colors */
+  --background: #2a2a2a;
+  --foreground: #fff5c3;
+  --card: #3a3a3a;
+  --card-foreground: #fff5c3;
+  --popover: #3a3a3a;
+  --popover-foreground: #fff5c3;
+  --primary: #cabdff;
+  --primary-foreground: #2a2a2a;
+  --secondary: #b4f8c8;
+  --secondary-foreground: #2a2a2a;
+  --muted: #4a4a4a;
+  --muted-foreground: #ffd6e8;
+  --accent: #ffd6e8;
+  --accent-foreground: #2a2a2a;
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: #4a4a4a;
+  --input: #3a3a3a;
+  --ring: #cabdff;
+  --chart-1: #ffd6e8;
+  --chart-2: #cabdff;
+  --chart-3: #fff5c3;
+  --chart-4: #b4f8c8;
+  --chart-5: #ffb3e6;
+  --sidebar: #2a2a2a;
+  --sidebar-foreground: #fff5c3;
+  --sidebar-primary: #cabdff;
+  --sidebar-primary-foreground: #2a2a2a;
+  --sidebar-accent: #ffd6e8;
+  --sidebar-accent-foreground: #2a2a2a;
+  --sidebar-border: #4a4a4a;
+  --sidebar-ring: #cabdff;
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-royal: var(--font-cinzel);
+  /* Adding Battlesbridge font variable */
+  --font-battlesbridge: var(--font-battlesbridge);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
   }
+
+  .font-royal {
+    font-family: var(--font-royal);
+    font-weight: 600;
+    letter-spacing: 0.025em;
+  }
+
+  /* Adding Battlesbridge font class */
+  .font-battlesbridge {
+    font-family: var(--font-battlesbridge);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  .rainbow-border {
+    position: relative;
+    background: linear-gradient(45deg, #ffd6e8, #cabdff, #b4f8c8, #fff5c3);
+    background-size: 400% 400%;
+    animation: rainbowShift 8s ease-in-out infinite;
+    padding: 2px;
+    border-radius: inherit;
+  }
+
+  .rainbow-border > * {
+    background: var(--background);
+    border-radius: inherit;
+  }
+
+  .pattern-overlay {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pattern-overlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle at 25% 25%, #ffd6e8 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, #cabdff 0%, transparent 50%),
+      radial-gradient(circle at 75% 25%, #b4f8c8 0%, transparent 50%),
+      radial-gradient(circle at 25% 75%, #fff5c3 0%, transparent 50%);
+    opacity: 0.1;
+    animation: patternShift 15s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .geometric-pattern {
+    background-image: linear-gradient(45deg, transparent 40%, #ffd6e8 40%, #ffd6e8 60%, transparent 60%),
+      linear-gradient(-45deg, transparent 40%, #cabdff 40%, #cabdff 60%, transparent 60%);
+    background-size: 60px 60px;
+    background-position: 0 0, 30px 30px;
+    opacity: 0.05;
+    animation: geometricShift 20s linear infinite;
+  }
+
+  @media (max-width: 768px) {
+    .geometric-pattern {
+      background-size: 40px 40px;
+      background-position: 0 0, 20px 20px;
+      opacity: 0.03;
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    @keyframes float {
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-4px);
+      }
+    }
+  }
+
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .float-animation:nth-child(2) {
+    animation-delay: 0.5s;
+  }
+
+  .float-animation:nth-child(3) {
+    animation-delay: 1s;
+  }
+
+  .mobile-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  .mobile-text {
+    @apply text-sm sm:text-base lg:text-lg;
+  }
+
+  .mobile-heading {
+    @apply text-2xl sm:text-3xl lg:text-4xl;
+  }
+
+  .mobile-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6;
+  }
+
+  .mobile-flex {
+    @apply flex flex-col sm:flex-row items-center gap-4 sm:gap-6;
+  }
 }
 
-/* Ensure no Web3 or crypto-related styles */
-body {
-  font-family: var(--font-inter), system-ui, sans-serif;
+@keyframes colorShift {
+  0%,
+  100% {
+    background-color: #fff5c3;
+  }
+  25% {
+    background-color: #ffd6e8;
+  }
+  50% {
+    background-color: #cabdff;
+  }
+  75% {
+    background-color: #b4f8c8;
+  }
 }
 
-/* Remove any potential conflicting styles */
-* {
-  box-sizing: border-box;
+@keyframes vibrantColorShift {
+  0%,
+  100% {
+    background: linear-gradient(135deg, #fff5c3, #ffd6e8);
+  }
+  20% {
+    background: linear-gradient(135deg, #ffd6e8, #cabdff);
+  }
+  40% {
+    background: linear-gradient(135deg, #cabdff, #b4f8c8);
+  }
+  60% {
+    background: linear-gradient(135deg, #b4f8c8, #ffb3e6);
+  }
+  80% {
+    background: linear-gradient(135deg, #ffb3e6, #fff5c3);
+  }
 }
 
-/* Ensure clean rendering */
-html {
-  scroll-behavior: smooth;
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes patternShift {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.1;
+  }
+  25% {
+    transform: rotate(90deg) scale(1.1);
+    opacity: 0.15;
+  }
+  50% {
+    transform: rotate(180deg) scale(0.9);
+    opacity: 0.12;
+  }
+  75% {
+    transform: rotate(270deg) scale(1.05);
+    opacity: 0.18;
+  }
+}
+
+@keyframes geometricShift {
+  0% {
+    background-position: 0 0, 30px 30px;
+  }
+  100% {
+    background-position: 60px 60px, 90px 90px;
+  }
+}
+
+@keyframes rainbowShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
 }
